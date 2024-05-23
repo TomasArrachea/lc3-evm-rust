@@ -12,6 +12,7 @@ use super::lea::lea;
 use super::ldi::ldi;
 use super::st::st;
 use super::sti::sti;
+use super::str::str;
 use std::process::exit;
 
 enum Opcode {
@@ -49,7 +50,7 @@ pub fn execute(reg: &mut [u16], instr: u16, memory: &mut Memory) {
         x if x == Opcode::OpLea as u16 => lea(reg, instr),
         x if x == Opcode::OpSt as u16 => st(reg, instr, memory),
         x if x == Opcode::OpSti as u16 => sti(reg, instr, memory),
-        x if x == Opcode::OpStr as u16 => todo!(),
+        x if x == Opcode::OpStr as u16 => str(reg, instr, memory),
         x if x == Opcode::OpTrap as u16 => todo!(),
         x if x == Opcode::OpRes as u16 => (),
         x if x == Opcode::OpRti as u16 => (),
