@@ -2,6 +2,7 @@ use console::Term;
 
 use super::add::add;
 use super::and::and;
+use super::not::not;
 use super::ldi::ldi;
 use std::process::exit;
 
@@ -30,7 +31,7 @@ pub fn execute(reg: &mut [u16], instr: u16, memory: &mut [u16], term: &Term) {
     match op {
         x if x == Opcode::OpAdd as u16 => add(reg, instr),
         x if x == Opcode::OpAnd as u16 => and(reg, instr),
-        x if x == Opcode::OpNot as u16 => todo!(),
+        x if x == Opcode::OpNot as u16 => not(reg, instr),
         x if x == Opcode::OpBr as u16 => todo!(),
         x if x == Opcode::OpJmp as u16 => todo!(),
         x if x == Opcode::OpJsr as u16 => todo!(),

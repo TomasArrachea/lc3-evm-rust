@@ -1,5 +1,6 @@
 pub mod add;
 pub mod and;
+pub mod not;
 pub mod ldi;
 pub mod opcode;
 
