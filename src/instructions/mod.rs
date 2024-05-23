@@ -9,6 +9,7 @@ pub mod ldr;
 pub mod lea;
 pub mod ldi;
 pub mod st;
+pub mod sti;
 pub mod opcode;
 
 fn sign_extend(mut x: u16, bit_count: u8) -> u16 {
