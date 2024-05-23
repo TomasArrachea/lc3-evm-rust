@@ -1,11 +1,12 @@
-mod register;
 mod instructions;
+mod register;
 
+use console::Term;
+use register::{ConditionFlags, Register};
 use std::env;
-use std::process::exit;
-use register::{Register, ConditionFlags};
 use std::fs::File;
 use std::io::Read;
+use std::process::exit;
 
 const MEMORY_MAX: usize = 1 << 16;
 const R_COUNT: usize = 10;
@@ -23,7 +24,6 @@ fn load_args(memory: &mut [u16]) {
             exit(1);
         }
     }
-
 }
 
 fn read_image_file(mut file: File, memory: &mut [u16]) {
@@ -53,7 +53,7 @@ fn read_image(image_path: &str, memory: &mut [u16]) -> i32 {
 // Memory Mapped Registers
 enum MemoryRegisters {
     Kbsr = 0xFE00, /* keyboard status */
-    Kbdr = 0xFE02  /* keyboard data */
+    Kbdr = 0xFE02, /* keyboard data */
 }
 
 // memory access
@@ -61,44 +61,24 @@ fn mem_write(memory: &mut [u16], address: u16, val: u16) {
     memory[address as usize] = val;
 }
 
-fn mem_read(memory: &mut [u16], address: u16) -> u16 {
+fn mem_read(memory: &mut [u16], address: u16, term: &Term) -> u16 {
     if address == MemoryRegisters::Kbsr as u16 {
-        // TODO: add key check
-        memory[MemoryRegisters::Kbsr as usize] = 0;
+        if let Ok(c) = term.read_char() {
+            memory[MemoryRegisters::Kbsr as usize] = 1 << 15;
+            memory[MemoryRegisters::Kbdr as usize] = c as u16;
+        } else {
+            memory[MemoryRegisters::Kbsr as usize] = 0;
+        }
     }
-    return memory[address as usize];
+    memory[address as usize]
 }
-
-fn disable_input_buffering() {
-}
-
-fn restore_input_buffering() {
-}
-
-fn setup() {
-    // TODO: add SIGINT handler
-    disable_input_buffering();
-}
-
-fn handle_interrupt() {
-    restore_input_buffering();
-    println!("\n");
-    exit(-2);
-}
-
-fn shutdown() {
-    restore_input_buffering();
-}
-
-
-
 
 fn main() {
-    let mut memory: [u16; MEMORY_MAX] = [0; MEMORY_MAX];  /* 65536 locations */
+    let mut memory: [u16; MEMORY_MAX] = [0; MEMORY_MAX]; /* 65536 locations */
     let mut reg: [u16; R_COUNT] = [0; R_COUNT];
-    
+    let term = Term::stdout();
+
     load_args(&mut memory);
-    setup();
 
     /* since exactly one condition flag should be set at any given time, set the Z flag */
     reg[Register::Cond as usize] = ConditionFlags::Zro as u16;
@@ -108,12 +88,10 @@ fn main() {
     let pc_start: u16 = 0x3000;
     reg[Register::Pc as usize] = pc_start;
 
-    let running = 1;
-    while running == 1 {
+    loop {
         /* FETCH */
         reg[Register::Pc as usize] += 1;
-        let instr = mem_read(&mut memory, reg[Register::Pc as usize]);
+        let instr = mem_read(&mut memory, reg[Register::Pc as usize], &term);
         instructions::opcode::execute(&mut reg, instr);
     }
-    shutdown();
 }

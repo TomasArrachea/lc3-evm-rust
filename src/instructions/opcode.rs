@@ -1,29 +1,28 @@
-
-use std::process::exit;
 use super::add::add;
+use std::process::exit;
 
 enum Opcode {
-    OpBr, /* branch */
-    OpAdd,    /* add  */
-    OpLd,     /* load */
-    OpSt,     /* store */
-    OpJsr,    /* jump register */
-    OpAnd,    /* bitwise and */
-    OpLdr,    /* load register */
-    OpStr,    /* store register */
-    OpRti,    /* unused */
-    OpNot,    /* bitwise not */
-    OpLdi,    /* load indirect */
-    OpSti,    /* store indirect */
-    OpJmp,    /* jump */
-    OpRes,    /* reserved (unused) */
-    OpLea,    /* load effective address */
-    OpTrap    /* execute trap */
+    OpBr,   /* branch */
+    OpAdd,  /* add  */
+    OpLd,   /* load */
+    OpSt,   /* store */
+    OpJsr,  /* jump register */
+    OpAnd,  /* bitwise and */
+    OpLdr,  /* load register */
+    OpStr,  /* store register */
+    OpRti,  /* unused */
+    OpNot,  /* bitwise not */
+    OpLdi,  /* load indirect */
+    OpSti,  /* store indirect */
+    OpJmp,  /* jump */
+    OpRes,  /* reserved (unused) */
+    OpLea,  /* load effective address */
+    OpTrap, /* execute trap */
 }
 
 pub fn execute(reg: &mut [u16], instr: u16) {
     let op: u16 = instr >> 12;
-    
+
     match op {
         x if x == Opcode::OpAdd as u16 => add(reg, instr),
         x if x == Opcode::OpAnd as u16 => todo!(),
@@ -41,6 +40,6 @@ pub fn execute(reg: &mut [u16], instr: u16) {
         x if x == Opcode::OpTrap as u16 => todo!(),
         x if x == Opcode::OpRes as u16 => (),
         x if x == Opcode::OpRti as u16 => (),
-        _ => exit(3)
+        _ => exit(3),
     }
 }

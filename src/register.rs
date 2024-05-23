@@ -9,7 +9,7 @@ pub enum Register {
     R7,
     Pc, /* program counter */
     Cond,
-    Count
+    Count,
 }
 
 pub enum ConditionFlags {
