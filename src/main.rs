@@ -92,6 +92,6 @@ fn main() {
         /* FETCH */
         reg[Register::Pc as usize] += 1;
         let instr = mem_read(&mut memory, reg[Register::Pc as usize], &term);
-        instructions::opcode::execute(&mut reg, instr);
+        instructions::opcode::execute(&mut reg, instr, &mut memory, &term);
     }
 }

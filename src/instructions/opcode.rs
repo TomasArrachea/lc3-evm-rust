@@ -1,5 +1,8 @@
+use console::Term;
+
 use super::add::add;
 use super::and::and;
+use super::ldi::ldi;
 use std::process::exit;
 
 enum Opcode {
@@ -21,7 +24,7 @@ enum Opcode {
     OpTrap, /* execute trap */
 }
 
-pub fn execute(reg: &mut [u16], instr: u16) {
+pub fn execute(reg: &mut [u16], instr: u16, memory: &mut [u16], term: &Term) {
     let op: u16 = instr >> 12;
 
     match op {
@@ -32,7 +35,7 @@ pub fn execute(reg: &mut [u16], instr: u16) {
         x if x == Opcode::OpJmp as u16 => todo!(),
         x if x == Opcode::OpJsr as u16 => todo!(),
         x if x == Opcode::OpLd as u16 => todo!(),
-        x if x == Opcode::OpLdi as u16 => todo!(),
+        x if x == Opcode::OpLdi as u16 => ldi(reg, instr, memory, term),
         x if x == Opcode::OpLdr as u16 => todo!(),
         x if x == Opcode::OpLea as u16 => todo!(),
         x if x == Opcode::OpSt as u16 => todo!(),
