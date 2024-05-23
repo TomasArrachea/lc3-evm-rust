@@ -1,11 +1,5 @@
 use crate::register::update_flags;
-
-fn sign_extend(mut x: u16, bit_count: u8) -> u16 {
-    if (x >> (bit_count - 1)) & 1 == 1 {
-        x |= 0xFFFF << bit_count;
-    }
-    x
-}
+use super::sign_extend;
 
 pub fn add(reg: &mut [u16], instr: u16) {
     /* destination register (DR) */

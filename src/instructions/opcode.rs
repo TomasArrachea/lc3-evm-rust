@@ -1,4 +1,5 @@
 use super::add::add;
+use super::and::and;
 use std::process::exit;
 
 enum Opcode {
@@ -25,7 +26,7 @@ pub fn execute(reg: &mut [u16], instr: u16) {
 
     match op {
         x if x == Opcode::OpAdd as u16 => add(reg, instr),
-        x if x == Opcode::OpAnd as u16 => todo!(),
+        x if x == Opcode::OpAnd as u16 => and(reg, instr),
         x if x == Opcode::OpNot as u16 => todo!(),
         x if x == Opcode::OpBr as u16 => todo!(),
         x if x == Opcode::OpJmp as u16 => todo!(),
