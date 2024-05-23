@@ -6,7 +6,9 @@ use super::not::not;
 use super::branch::branch;
 use super::jmp::jmp;
 use super::jsr::jsr;
+use super::ld::ld;
 use super::ldi::ldi;
+use std::mem;
 use std::process::exit;
 
 enum Opcode {
@@ -38,7 +40,7 @@ pub fn execute(reg: &mut [u16], instr: u16, memory: &mut Memory) {
         x if x == Opcode::OpBr as u16 => branch(reg, instr),
         x if x == Opcode::OpJmp as u16 => jmp(reg, instr),
         x if x == Opcode::OpJsr as u16 => jsr(reg, instr),
-        x if x == Opcode::OpLd as u16 => todo!(),
+        x if x == Opcode::OpLd as u16 => ld(reg, instr, memory),
         x if x == Opcode::OpLdi as u16 => ldi(reg, instr, memory),
         x if x == Opcode::OpLdr as u16 => todo!(),
         x if x == Opcode::OpLea as u16 => todo!(),
