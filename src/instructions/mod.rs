@@ -2,7 +2,8 @@ pub mod add;
 pub mod and;
 pub mod not;
 pub mod branch;
-pub mod jump;
+pub mod jmp;
+pub mod jsr;
 pub mod ldi;
 pub mod opcode;
 
