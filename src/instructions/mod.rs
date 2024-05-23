@@ -5,6 +5,8 @@ pub mod branch;
 pub mod jmp;
 pub mod jsr;
 pub mod ld;
+pub mod ldr;
+pub mod lea;
 pub mod ldi;
 pub mod opcode;
 
