@@ -17,8 +17,8 @@ fn load_args(memory: &mut [u16]) {
         exit(2);
     }
 
-    for arg in env::args() {
-        if read_image(&arg, memory) == 1 {
+    for arg in env::args().skip(1) {
+        if read_image(&arg, memory) == 0 {
             println!("failed to load image: {}", arg);
             exit(1);
         }
@@ -34,7 +34,7 @@ fn read_image_file(mut file: File, memory: &mut [u16]) {
 
     /* use a heap allocated array as buffer */
     let mut buffer = Vec::new();
-    file.read(&mut buffer).unwrap();
+    file.read_to_end(&mut buffer).unwrap();
 
     /* store memory words from bytes */
     for (i, chunk) in buffer.chunks(2).enumerate() {
