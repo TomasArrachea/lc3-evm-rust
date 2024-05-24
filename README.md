@@ -1,4 +1,4 @@
-# LC3 EVM in Rust
+# LC3 VM in Rust
 
 ## Description
 This project is a simple implementation of an LC3 (Little Computer 3) Emulator in Rust, providing a platform for simulating LC3 assembly language programs.
