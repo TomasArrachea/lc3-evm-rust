@@ -70,8 +70,8 @@ fn main() {
     let mut running = true;
     while running {
         /* FETCH */
-        reg[Register::Pc as usize] += 1;
         let instr = memory.read(reg[Register::Pc as usize]);
+        reg[Register::Pc as usize] += 1;
         instructions::opcode::execute(&mut reg, instr, &mut memory, &mut running);
     }
 }
