@@ -16,22 +16,22 @@ use super::str::str;
 use std::process::exit;
 
 enum Opcode {
-    OpBr,   /* branch */
-    OpAdd,  /* add  */
-    OpLd,   /* load */
-    OpSt,   /* store */
-    OpJsr,  /* jump register */
-    OpAnd,  /* bitwise and */
-    OpLdr,  /* load register */
-    OpStr,  /* store register */
-    OpRti,  /* unused */
-    OpNot,  /* bitwise not */
-    OpLdi,  /* load indirect */
-    OpSti,  /* store indirect */
-    OpJmp,  /* jump */
-    OpRes,  /* reserved (unused) */
-    OpLea,  /* load effective address */
-    OpTrap, /* execute trap */
+    OpBr = 0,   /* branch */
+    OpAdd = 1,  /* add  */
+    OpLd = 2,   /* load */
+    OpSt = 3,   /* store */
+    OpJsr = 4,  /* jump register */
+    OpAnd = 5,  /* bitwise and */
+    OpLdr = 6,  /* load register */
+    OpStr = 7,  /* store register */
+    OpRti = 8,  /* unused */
+    OpNot = 9,  /* bitwise not */
+    OpLdi = 10,  /* load indirect */
+    OpSti = 11,  /* store indirect */
+    OpJmp = 12,  /* jump */
+    OpRes = 13,  /* reserved (unused) */
+    OpLea = 14,  /* load effective address */
+    OpTrap = 15, /* execute trap */
 }
 
 pub fn execute(reg: &mut [u16], instr: u16, memory: &mut Memory) {
