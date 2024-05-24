@@ -1,8 +1,8 @@
 mod instructions;
 mod memory;
 mod register;
+mod traps;
 
-use console::Term;
 use memory::Memory;
 use register::{ConditionFlags, Register};
 use std::env;
@@ -67,10 +67,11 @@ fn main() {
     let pc_start: u16 = 0x3000;
     reg[Register::Pc as usize] = pc_start;
 
-    loop {
+    let mut running = true;
+    while running {
         /* FETCH */
         reg[Register::Pc as usize] += 1;
         let instr = memory.read(reg[Register::Pc as usize]);
-        instructions::opcode::execute(&mut reg, instr, &mut memory);
+        instructions::opcode::execute(&mut reg, instr, &mut memory, &mut running);
     }
 }

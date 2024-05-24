@@ -1,4 +1,5 @@
 use crate::memory::Memory;
+use crate::traps::trapcode;
 
 use super::add::add;
 use super::and::and;
@@ -34,7 +35,7 @@ enum Opcode {
     OpTrap = 15, /* execute trap */
 }
 
-pub fn execute(reg: &mut [u16], instr: u16, memory: &mut Memory) {
+pub fn execute(reg: &mut [u16], instr: u16, memory: &mut Memory, running: &mut bool) {
     let op: u16 = instr >> 12;
 
     match op {
@@ -51,7 +52,7 @@ pub fn execute(reg: &mut [u16], instr: u16, memory: &mut Memory) {
         x if x == Opcode::OpSt as u16 => st(reg, instr, memory),
         x if x == Opcode::OpSti as u16 => sti(reg, instr, memory),
         x if x == Opcode::OpStr as u16 => str(reg, instr, memory),
-        x if x == Opcode::OpTrap as u16 => todo!(),
+        x if x == Opcode::OpTrap as u16 => trapcode::execute(reg, instr, memory, running),
         x if x == Opcode::OpRes as u16 => (),
         x if x == Opcode::OpRti as u16 => (),
         _ => exit(3),
